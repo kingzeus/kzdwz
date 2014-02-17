@@ -170,6 +170,13 @@ class DwzGridView extends CBaseListView
 	 */
 	public $cssFile;
 	/**
+	 * @var string the text to be displayed in an empty grid cell. This property will NOT be HTML-encoded when rendering. Defaults to an HTML blank.
+	 * This differs from {@link nullDisplay} in that {@link nullDisplay} is only used by {@link CDataColumn} to render
+	 * null data values.
+	 * @since 1.1.7
+	 */
+	public $blankDisplay='&nbsp;';
+	/**
 	 * @var string the text to be displayed in a data cell when a data value is null. This property will NOT be HTML-encoded
 	 * when rendering. Defaults to an HTML blank.
 	 */

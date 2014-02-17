@@ -64,7 +64,7 @@ class DwzNavTab extends DwzWidget
 			$lists  .= strtr($this->listTemplate, array('{title}'=>$title))."\n";
 			$contents.= '<div>'.$content."</div>\n";
 		}
-		$this->htmlOptions['class']=trim('tabsPage '.$this->htmlOptions['class']);
+		$this->htmlOptions['class']='tabsPage';
 		$this->htmlOptions['id']= 'navTab';
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		
@@ -72,7 +72,7 @@ class DwzNavTab extends DwzWidget
 		echo $headers;
 		echo "\n</ul>\n</div>\n<div class='tabsLeft'>left</div>\n<div class='tabsRight'>right</div>\n<div class='tabsMore'>more</div>\n</div>\n<ul class='tabsMoreList'>\n";
 		echo $lists;
-		echo "\n</ul>\n<div class='navTab-panel tabsPageContent' id='navTab-default'>\n", $contents, "\n</div>\n";
+		echo "\n</ul>\n<div class='navTab-panel tabsPageContent layoutBox' id='navTab-default'>\n", $contents, "\n</div>\n";
 		
 		echo CHtml::closeTag($this->tagName)."\n";
 	}

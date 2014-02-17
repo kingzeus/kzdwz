@@ -64,6 +64,7 @@ class DwzWidget extends CWidget
 		Yii::app()->getClientScript()->registerScript(__CLASS__,"
 			$(function(){
 				DWZ.init('{$this->baseUrl}/dwz.frag.xml', {
+					debug:true,	// 调试模式 【true|false】
 					callback:function(){
 						initEnv();
 						$('#themeList').theme({themeBase:'".$this->themeUrl."'});
@@ -117,7 +118,9 @@ class DwzWidget extends CWidget
 				$this->registerScriptFile($scriptFile);
 		}
 		$cs->registerScriptFile($this->scriptUrl.'/dwz.regional.zh.js');
+		// 添加自定义脚本
 		$cs->registerScriptFile($this->scriptUrl.'/custom.js');
+
 	}
 
 	protected function registerScriptFile($fileName,$position=CClientScript::POS_HEAD)

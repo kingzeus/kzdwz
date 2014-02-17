@@ -41,7 +41,7 @@ Yii::import('ext.dwz.DwzWidget');
 class DwzPager extends CBasePager
 {
 	//每页显示数
-	public $numPerPageList=array('10'=>10,'20'=>20,'50'=>50,'100'=>100);
+	public $numPerPageList=array('5'=>5,'10'=>10,'20'=>20,'50'=>50,'100'=>100);
 	//显示的位置navTab或Dialog
 	public $targetType='navTab';
 	//每页显示多少条
