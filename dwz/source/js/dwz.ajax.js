@@ -11,6 +11,7 @@
  */
 function validateCallback(form, callback, confirmMsg) {
 	var $form = $(form);
+
 	if (!$form.valid()) {
 		return false;
 	}
@@ -131,6 +132,9 @@ function navTabAjaxDone(json){
 			alertMsg.confirm(json.confirmMsg || DWZ.msg("forwardConfirmMsg"), {
 				okCall: function(){
 					navTab.reload(json.forwardUrl);
+				},
+				cancelCall: function(){
+					navTab.closeCurrentTab(json.navTabId);
 				}
 			});
 		} else {
@@ -153,7 +157,7 @@ function dialogAjaxDone(json){
 	if (json.statusCode == DWZ.statusCode.ok){
 		if (json.navTabId){
 			navTab.reload(json.forwardUrl, {navTabId: json.navTabId});
-		} else if (json.rel) {
+		} else {
 			var $pagerForm = $("#pagerForm", navTab.getCurrentPanel());
 			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
 			navTabPageBreak(args, json.rel);
@@ -288,34 +292,35 @@ function ajaxTodo(url, callback){
 }
 
 /**
- * A function that triggers when all file uploads have completed. There is no default event handler.
- * @param {Object} event: The event object.
- * @param {Object} data: An object containing details about the upload process:
- * 		- filesUploaded: The total number of files uploaded
- * 		- errors: The total number of errors while uploading
- * 		- allBytesLoaded: The total number of bytes uploaded
- * 		- speed: The average speed of all uploaded files	
+ * http://www.uploadify.com/documentation/uploadify/onqueuecomplete/	
  */
-function uploadifyAllComplete(event, data){
-	if (data.errors) {
-		var msg = "The total number of files uploaded: "+data.filesUploaded+"\n"
-			+ "The total number of errors while uploading: "+data.errors+"\n"
-			+ "The total number of bytes uploaded: "+data.allBytesLoaded+"\n"
-			+ "The average speed of all uploaded files: "+data.speed;
-		alert("event:" + event + "\n" + msg);
+function uploadifyQueueComplete(queueData){
+
+	var msg = "The total number of files uploaded: "+queueData.uploadsSuccessful+"<br/>"
+		+ "The total number of errors while uploading: "+queueData.uploadsErrored+"<br/>"
+		+ "The total number of bytes uploaded: "+queueData.queueBytesUploaded+"<br/>"
+		+ "The average speed of all uploaded files: "+queueData.averageSpeed;
+	
+	if (queueData.uploadsErrored) {
+		alertMsg.error(msg);
+	} else {
+		alertMsg.correct(msg);
 	}
 }
 /**
- * http://www.uploadify.com/documentation/
- * @param {Object} event
- * @param {Object} queueID
- * @param {Object} fileObj
- * @param {Object} response
- * @param {Object} data
+ * http://www.uploadify.com/documentation/uploadify/onuploadsuccess/
  */
-function uploadifyComplete(event, queueId, fileObj, response, data){
-	DWZ.ajaxDone(DWZ.jsonEval(response));
+function uploadifySuccess(file, data, response){
+	alert(data)
 }
+
+/**
+ * http://www.uploadify.com/documentation/uploadify/onuploaderror/
+ */
+function uploadifyError(file, errorCode, errorMsg) {
+	alertMsg.error(errorCode+": "+errorMsg);
+}
+
 
 /**
  * http://www.uploadify.com/documentation/
@@ -378,3 +383,4 @@ $.fn.extend({
 		});
 	}
 });
+

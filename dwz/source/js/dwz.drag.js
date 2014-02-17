@@ -28,6 +28,8 @@
 	};
 	$.rwdrag = {
 		start: function(e){
+			document.onselectstart=function(e){return false};//禁止选择
+
 			var data = $.data(this, 'pp-rwdrag');
 			var el = data.options.el[0];
 			$.data(el, 'pp-rwdrag', {
@@ -41,8 +43,7 @@
 					ox: e.pageX || e.screenX,
 					oy: e.pageY || e.screenY
 				};
-				$(document).bind("mouseup", $.rwdrag.stop);
-				$(document).bind("mousemove", $.rwdrag.drag);
+				$(document).bind("mouseup", $.rwdrag.stop).bind("mousemove", $.rwdrag.drag);
 			}
 		},
 		drag: function(e){
@@ -82,12 +83,13 @@
 		stop: function(e){
 			var current = $.rwdrag.current;
 			var data = $.data(current.el, 'pp-rwdrag');
-			$(document).unbind('mousemove', $.rwdrag.drag);
-			$(document).unbind('mouseup', $.rwdrag.stop);
+			$(document).unbind('mousemove', $.rwdrag.drag).unbind('mouseup', $.rwdrag.stop);
 			if (data.options.stop) {
 				data.options.stop.apply(current.el, [current.el]);
 			}
 			$.rwdrag.current = null;
+
+			document.onselectstart=function(e){return true};//启用选择
 			return $.rwdrag.preventEvent(e);
 		},
 		preventEvent:function(e){

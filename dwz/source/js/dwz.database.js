@@ -229,7 +229,7 @@
 					var $th = $(this);
 					var field = {
 						type: $th.attr("type") || "text",
-						patternDate: $th.attr("format") || "yyyy-MM-dd",
+						patternDate: $th.attr("dateFmt") || "yyyy-MM-dd",
 						name: $th.attr("name") || "",
 						defaultVal: $th.attr("defaultVal") || "",
 						size: $th.attr("size") || "12",
@@ -304,7 +304,7 @@
 			 */
 			function initSuffix($tbody) {
 				$tbody.find('>tr').each(function(i){
-					$(':input, a.btnLook', this).each(function(){
+					$(':input, a.btnLook, a.btnAttach', this).each(function(){
 						var $this = $(this), name = $this.attr('name'), val = $this.val();
 
 						if (name) $this.attr('name', name.replaceSuffix(i));
@@ -365,7 +365,7 @@
 						});
 						break;
 					case 'date':
-						html = '<input type="text" name="'+field.name+'" value="'+field.defaultVal+'" class="date '+field.fieldClass+'" format="'+field.patternDate+'" size="'+field.size+'"/>'
+						html = '<input type="text" name="'+field.name+'" value="'+field.defaultVal+'" class="date '+field.fieldClass+'" dateFmt="'+field.patternDate+'" size="'+field.size+'"/>'
 							+'<a class="inputDateButton" href="javascript:void(0)">选择</a>';
 						break;
 					default:

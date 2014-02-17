@@ -188,7 +188,7 @@
 			return iW;
 		},
 		_getBarWidth: function() {
-			return this._taskBar.innerWidth(true);
+			return this._taskBar.innerWidth();
 		},
 		/**
 		 * 在任务栏上新加一个任务

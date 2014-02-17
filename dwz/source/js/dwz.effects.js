@@ -45,11 +45,7 @@
 					duration: op.duration,
 					complete:function(){$this.html($(this).html());}
 				});
-				$this.animate({height: 0}, {
-					duration: op.duration,
-					easing: op.easing,
-					complete: function(){ $this.css({display: "none", height:""}); op.call(); }
-				});
+				
 			});
 		},
 		jSlideDown:function(options) {
@@ -84,8 +80,8 @@
 				if ($.browser.opera)
 					refElement.focus();
 			}
-			dimensions.height = $(element).height();
-			dimensions.width = $(element).width();
+			dimensions.height = $(element).outerHeight();
+			dimensions.width = $(element).outerWidth();
 			if (displayOrig == 'none'){
 				$(element).css({visibility: visibilityOrig, display: 'none'});
 				if(isZero) if(isZero)$(element).css("height","0px");

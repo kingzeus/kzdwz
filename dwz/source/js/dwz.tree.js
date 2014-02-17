@@ -54,6 +54,14 @@
 					$("a", $this).click(function(event){
 						$("div." + op.selected, $this).removeClass(op.selected);
 						var parent = $(this).parent().addClass(op.selected);
+						var $li = $(this).parents("li:first"), sTarget = $li.attr("target");
+						if (sTarget) {
+							if ($("#"+sTarget, $this).size() == 0) {
+								$this.prepend('<input id="'+sTarget+'" type="hidden" />');
+							}
+							$("#"+sTarget, $this).val($li.attr("rel"));
+						}
+						
 						$(".ckbox",parent).trigger("click");
 						event.stopPropagation();
 						$(document).trigger("click");
@@ -190,6 +198,11 @@
 			var aClass = (ckboxed==ckbox?"checked":(ckboxed!=0?"indeterminate":"unchecked"));
 			var rClass = (ckboxed==ckbox?"indeterminate":(ckboxed!=0?"checked":"indeterminate"));
 			$(">div>.ckbox", parent).removeClass("unchecked").removeClass("checked").removeClass(rClass).addClass(aClass);
+			
+			var $checkbox = $(":checkbox", parent);
+			if (aClass == "checked") $checkbox.attr("checked","checked");
+			else if (aClass == "unchecked") $checkbox.removeAttr("checked");
+			
 			parent._checkParent();
 		}
 	});
