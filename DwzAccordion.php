@@ -35,7 +35,7 @@ class DwzAccordion extends DwzWidget
 	 * @var items array 多个可折叠项 array('标题'=>'内容').
 	 */
 	public $items=array();
-	public $titleTemplate= '<h2><span>ico</span>{title}</h2>';
+	public $titleTemplate= '<h2><span>Folder</span>{title}</h2>';
 	
 	public function run()
 	{
@@ -44,6 +44,11 @@ class DwzAccordion extends DwzWidget
 			$this->htmlOptions['class']='accordion '.$this->htmlOptions['class'];
 		else
 			$this->htmlOptions['class']='accordion';
+		
+		if (isset($this->htmlOptions['fillSpace']))
+			$this->htmlOptions['fillSpace']=$this->htmlOptions['fillSpace'];
+		else
+			$this->htmlOptions['fillSpace']='sidebar';
 		
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 

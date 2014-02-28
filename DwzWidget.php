@@ -15,6 +15,7 @@ class DwzWidget extends CWidget
 	public $baseUrl;
 	public $scriptUrl;
 	public $themeUrl;
+	public $uploadifyUrl;
 	/**
 	 * 主题名，默认default
 	 */
@@ -23,12 +24,15 @@ class DwzWidget extends CWidget
 	/**
 	 * js名称，默认是dwz.min.js包含所有dwz所用的脚本，如果用数组指定则会引用所有数组指定的js
 	 */
-	public $scriptFile='dwz.min.js';
+	public $scriptFile=array('dwz.min.js'=>'bin');
 
 	/**
 	 * 核心css文件，默认core是主题目录下的css/core.css
 	 */
-	public $coreCssFile='core.css';
+	public $coreCssFile=array(
+			'core.css'=>'screen',
+			'print.css'=>'print',
+	);
 	/**
 	 * ie修复css文件，默认core是主题目录下的css/ieHack.css
 	 */
@@ -36,8 +40,9 @@ class DwzWidget extends CWidget
 	/**
 	 * css名称，默认是style.css在主题目录中。如果是数组则会引用数组中的css
 	 */
-	public $cssFile='style.css';
+	public $cssFile=array('style.css'=>'screen');
 
+	public $uploadifyCssFile=array('uploadify.css'=>'screen');
 	/**
 	 * 配置DWZ的js选项，备用，此项目前没作用
 	 */
@@ -64,16 +69,16 @@ class DwzWidget extends CWidget
 		Yii::app()->getClientScript()->registerScript(__CLASS__,"
 			$(function(){
 				DWZ.init('{$this->baseUrl}/dwz.frag.xml', {
+					loginUrl:'login_dialog.html', loginTitle:'登录',	// 弹出登录对话框
+					statusCode:{ok:200, error:300, timeout:301}, //【可选】
+					pageInfo:{pageNum:'pageNum', numPerPage:'numPerPage', orderField:'orderField', orderDirection:'orderDirection'}, //【可选】
 					debug:true,	// 调试模式 【true|false】
 					callback:function(){
 						initEnv();
 						$('#themeList').theme({themeBase:'".$this->themeUrl."'});
 					}
 				});
-			});
-			if ($.browser.msie) {
-				window.setInterval('CollectGarbage();', 10000);
-			}
+			});					
 		");
 	}
 
@@ -87,6 +92,8 @@ class DwzWidget extends CWidget
 				$this->scriptUrl=$this->baseUrl.'/js';
 			if($this->themeUrl===null)
 				$this->themeUrl=$this->baseUrl.'/themes';
+			if($this->uploadifyUrl===null)
+				$this->uploadifyUrl=$this->baseUrl.'/uploadify';
 		}
 	}
 
@@ -95,14 +102,23 @@ class DwzWidget extends CWidget
 	{
 		$cs=Yii::app()->getClientScript();
 
-		if(is_string($this->cssFile))
-			$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$this->cssFile);
-		else if(is_array($this->cssFile)){
-			foreach($this->cssFile as $cssFile)
-				$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$cssFile);
+		if(is_array($this->cssFile)){
+			foreach($this->cssFile as $cssFile=>$media)
+				$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$cssFile,$media);
 		}
-		$cs->registerCssFile($this->themeUrl.'/css/'.$this->coreCssFile);
-		$cs->registerCssFile($this->themeUrl.'/css/myfix.css');
+		
+		
+		if(is_array($this->coreCssFile)){
+			foreach($this->coreCssFile as $cssFile=>$media)
+				$cs->registerCssFile($this->themeUrl.'/css/'.$cssFile,$media);
+		}
+		
+		if(is_array($this->uploadifyCssFile)){
+			foreach($this->uploadifyCssFile as $cssFile=>$media)
+				$cs->registerCssFile($this->uploadifyUrl.'/css/'.$cssFile,$media);
+		}
+		
+	
 		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
 			$cs->registerCssFile($this->themeUrl.'/css/'.$this->ieHackCssFile);
 
@@ -111,11 +127,10 @@ class DwzWidget extends CWidget
 		$cs->registerScriptFile($this->scriptUrl.'/jquery.cookie.js');
 		$cs->registerScriptFile($this->scriptUrl.'/jquery.bgiframe.js');
 		$cs->registerScriptFile($this->scriptUrl.'/jquery.validate.js');
-		if(is_string($this->scriptFile))
-			$this->registerScriptFile($this->scriptFile);
-		else if(is_array($this->scriptFile)){
-			foreach($this->scriptFile as $scriptFile)
-				$this->registerScriptFile($scriptFile);
+		
+		if(is_array($this->scriptFile)){
+			foreach($this->scriptFile as $scriptFile=>$dir)
+				$cs->registerScriptFile($this->baseUrl.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$scriptFile);
 		}
 		$cs->registerScriptFile($this->scriptUrl.'/dwz.regional.zh.js');
 		// 添加自定义脚本
@@ -123,8 +138,5 @@ class DwzWidget extends CWidget
 
 	}
 
-	protected function registerScriptFile($fileName,$position=CClientScript::POS_HEAD)
-	{
-		Yii::app()->getClientScript()->registerScriptFile($this->scriptUrl.'/'.$fileName,$position);
-	}
+
 }

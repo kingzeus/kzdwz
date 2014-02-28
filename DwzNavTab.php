@@ -42,14 +42,15 @@ Yii::import('ext.dwz.DwzWidget');
  */
 class DwzNavTab extends DwzWidget
 {
+
 	/**
 	 * @var $tabs array NavTab初始显示项目 (标题=>内容).
 	 */
 	public $tabs= array();
 
-	public $headerTemplate= '<li tabid="{tid}" class="main"><a href="#"><span><span class="home_icon">{title}</span></span></a></li>';
-	public $listTemplate=   '<li><a href="javascript:void(0)">{title}</a></li>';
-
+	public $headerTemplate= '<li tabid="{tid}" class="main"><a href="javascript:;"><span><span class="home_icon">{title}</span></span></a></li>';
+	public $listTemplate=   '<li><a href="javascript:;">{title}</a></li>';
+	
 	public function run()
 	{
 		parent::run();
@@ -68,11 +69,26 @@ class DwzNavTab extends DwzWidget
 		$this->htmlOptions['id']= 'navTab';
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		
-		echo "<div class='tabsPageHeader'>\n<div class='tabsPageHeaderContent'>\n<ul class='navTab-tab'>\n";
-		echo $headers;
-		echo "\n</ul>\n</div>\n<div class='tabsLeft'>left</div>\n<div class='tabsRight'>right</div>\n<div class='tabsMore'>more</div>\n</div>\n<ul class='tabsMoreList'>\n";
-		echo $lists;
-		echo "\n</ul>\n<div class='navTab-panel tabsPageContent layoutBox' id='navTab-default'>\n", $contents, "\n</div>\n";
+		
+		// 标题
+ 		echo "<div class='tabsPageHeader'><div class='tabsPageHeaderContent'><ul class='navTab-tab'>";
+ 		echo $headers;
+ 		echo "</ul></div>";
+
+ 		echo '<div class="tabsLeft">left</div><!-- 禁用只需要添加一个样式 class="tabsLeft tabsLeftDisabled" -->';
+ 		echo '<div class="tabsRight">right</div><!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->';
+ 		echo '<div class="tabsMore">more</div></div>';
+ 		
+ 		// list
+		echo "<ul class='tabsMoreList'>";
+ 		echo $lists;
+ 		echo "</ul>";
+
+
+		// 内容
+		echo '<div class="navTab-panel tabsPageContent layoutBox"><div class="page unitBox">';
+		echo $contents;
+		echo '</div></div>';
 		
 		echo CHtml::closeTag($this->tagName)."\n";
 	}
