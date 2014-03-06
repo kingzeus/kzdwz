@@ -60,4 +60,5 @@ abstract class DwGxController extends GxController {
 			Yii::app()->end();
 	}
 
+
 }

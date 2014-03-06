@@ -79,10 +79,15 @@ class DwGxActiveForm extends CActiveForm {
 	
 	public function labelEx($model,$attribute,$htmlOptions=array())
 	{
-		$realAttribute=Yii::t('db',$model->tableName().'.'.$attribute);
+		
+		$realAttribute=$model->getAttributeLabel($attribute);
 		CHtml::resolveName($model,$attribute); // strip off square brackets if any
 		$realAttribute=$realAttribute.':';
 		return CHtml::tag('dt',$htmlOptions,$realAttribute);
+	}
+	public function info()
+	{
+		return CHtml::tag('span',array('class'=>'info'));
 	}
 	
 	

@@ -6,7 +6,6 @@
  * @link http://blog.soyoto.com/
  */
 
-Yii::import('ext.dwz.DwzWidget');
 
 /**
  * 使用方法
@@ -29,12 +28,15 @@ Yii::import('ext.dwz.DwzWidget');
 		</div>
 	</div>
  */
-class DwzAccordion extends DwzWidget
+class DwzAccordion extends CWidget
 {
 	/**
 	 * @var items array 多个可折叠项 array('标题'=>'内容').
 	 */
 	public $items=array();
+	public $htmlOptions=array();
+	public $tagName='div';
+	
 	public $titleTemplate= '<h2><span>Folder</span>{title}</h2>';
 	
 	public function run()
