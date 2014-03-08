@@ -5,7 +5,7 @@
  */
 ?>
 
-
+<div class="pageContent">
 <?php $ajax = ($this->enable_ajax_validation) ? 'true' : 'false'; ?>
 
 <?php echo '<?php '; ?>
@@ -14,23 +14,22 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 	'enableAjaxValidation' => <?php echo $ajax; ?>,
 	'htmlOptions'=>array(
          'class' => 'pageForm required-validate',
-         'onsubmit'=>'return validateCallback(this,'. ($_REQUEST['target']=='navTab'? 'navTabAjaxDone': 'dialogAjaxDone').')'
+         'onsubmit'=>'return validateCallback(this)'
     )
 
 ));
 <?php echo '?>'; ?>
 
 
-<style>.alert .alertInner .msg{max-height:600px;overflow:visible;}</style>
-	
 
-	<div class="form pageFormContent nowrap" style="border-width:0;">
+	<div class="pageFormContent nowrap" layoutH="56">
 
 <?php foreach ($this->tableSchema->columns as $column): ?>
 <?php if (!$column->autoIncrement): ?>
 		<dl>
 		<?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
-		<dd><?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?></dd>
+		<dd><?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+		<?php echo '<?php echo $form->info(); ?>'?></dd>
 		</dl>
 <?php endif; ?>
 <?php endforeach; ?>
@@ -43,17 +42,13 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 <?php endforeach; ?>
 	</div>
 
-	<div class="formBar">
-		<ul>
-			<li><div class="buttonActive"><div class="buttonContent">
-				<button type="submit"><?php echo "<?php echo \$model->isNewRecord ? '创建' : '保存'; ?>\n"; ?></button>
-			</div></div></li>
-			<li>
-				<div class="button"><div class="buttonContent">
-					<button onclick="<?php echo "<?php echo \$_REQUEST['target']=='navTab'? 'navTab.closeCurrentTab()': '$.pdialog.closeCurrent()';?>"?>" type="Button">取消</button>
-				</div></div>
-			</li>
-		</ul>
-	</div>
-<?php echo '<?php $this->endWidget(); ?>'; ?>
+
+<?php echo '<?php 
+	$this->widget(\'ext.dwz.DwzFormBar\',array(\'buttons\'=>array(
+		\'创建\'=>array(\'active\'=>true,\'type\'=>\'submit\'),
+		\'取消\'=>array(\'class\'=>\'close\'),
+	)));
+
+
+$this->endWidget(); ?>'; ?>
 </div><!-- form -->

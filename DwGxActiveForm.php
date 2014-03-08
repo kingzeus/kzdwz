@@ -46,6 +46,7 @@ class DwGxActiveForm extends CActiveForm {
 	 */
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
+		// 必须
 		if($model->isAttributeRequired($attribute)){
 			if(isset($htmlOptions['class']))
 				$htmlOptions['class'].=' required';
@@ -115,7 +116,9 @@ class DwGxActiveForm extends CActiveForm {
 					if(isset($rule['min']))
 						$htmlOptions['min']=$rule['min'];
 					if(isset($rule['max']))
+					{
 						$htmlOptions['max']=$rule['max'];
+					}
 				}
 				else if($rule[1]=='length'){
 					if(isset($rule['min']))

@@ -14,18 +14,16 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	Yii::app()->controller->renderPartial($authpath . $this->authtype);
 ?>
 
-	public function actionView($id) {
-		$this->render('view', array(
-			'model' => $this->loadModel($id, '<?php echo $this->modelClass; ?>'),
-		));
-	}
+
 
 	public function actionCreate() {
+
+        if(!DwzHelper::IsDwzAjaxRequest())
+			throw new CHttpException(405,Yii::t('yii','Your method is not allowed.'));
+		
 		$model = new <?php echo $this->modelClass; ?>;
 
-<?php if ($this->enable_ajax_validation): ?>
-		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-<?php endif; ?>
+
 
 		if (isset($_POST['<?php echo $this->modelClass; ?>'])) {
 			$model->setAttributes($_POST['<?php echo $this->modelClass; ?>']);
@@ -38,12 +36,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
-				if (DwzHelper::IsDwzAjaxRequest())
+				
 					$this->dwzOk('保存成功！');
 			}
-		}
 
-		$this->render('create', array( 'model' => $model));
+
+		}
+		$this->render('dwzcreate', array( 'model' => $model));
 	}
 
 	public function actionUpdate($id) {
@@ -98,21 +97,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			$this->dwzError('Your request is invalid.',300);
 	}
 
-	public function actionIndex() {
-		$dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-		$this->render('index', array(
-			'dataProvider' => $dataProvider,
-		));
-	}
+
 
 	public function actionAdmin() {
+		if(!DwzHelper::IsDwzAjaxRequest())
+			throw new CHttpException(405,Yii::t('yii','Your method is not allowed.'));
+		
+
 		$model = new <?php echo $this->modelClass; ?>('search');
 		$model->unsetAttributes();
 
 		if (isset($_GET['<?php echo $this->modelClass; ?>']))
 			$model->setAttributes($_GET['<?php echo $this->modelClass; ?>']);
 
-		$this->render((DwzHelper::IsDwzAjaxRequest()?'dwzadmin':'admin'), array(
+		$this->render('dwzadmin', array(
 			'model' => $model,
 		));
 	}
