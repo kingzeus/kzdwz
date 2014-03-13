@@ -1,11 +1,14 @@
 <?php echo "<?php\n"; ?>
 
-class DefaultController extends Controller
+class DefaultController extends DwGxController
 {
 	public function actionIndex()
 	{
 		$this->layout='dwz';
 		$this->render('index');
+	}
+	public function actionError(){
+		dwzHelper::error('错误!不能为空！，<div>这里如果直接传入$model则报$model的验证错误</div>');
 	}
 	//以下两个action用于测试，可删除
 	public function actionTest(){

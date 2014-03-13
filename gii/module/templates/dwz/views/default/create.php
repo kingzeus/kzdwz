@@ -3,7 +3,7 @@
 <?php echo CHtml::beginForm('', 'POST', array('class'=>
 			'pageForm required-validate',
 			'enctype'=>'multipart/form-data',
-			'onsubmit'=>\"return iframeCallback(this,dialogAjaxDone);\",
+			'onsubmit'=>'return validateCallback(this);',
 		));?>
 	<div class='form pageFormContent' layoutH='55'>
 		<div class='row'>

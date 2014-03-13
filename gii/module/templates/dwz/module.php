@@ -10,9 +10,10 @@ class <?php echo $this->moduleClass; ?> extends CWebModule
 		$this->setImport(array(
 			'<?php echo $this->moduleID; ?>.models.*',
 			'<?php echo $this->moduleID; ?>.components.*',
+			'ext.dwz.*',
 		));
 
-		//配置组件
+		//配置dwz组件
 		Yii::app()->setComponents(array(
 			'clientScript'=>array(
 				'class'=>'ext.dwz.DClientScript',
@@ -26,13 +27,20 @@ class <?php echo $this->moduleClass; ?> extends CWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			// 这个方法在模块控制器的操作被执行前调用
+			if( !Yii::app()->authManager->checkAccess("admin", Yii::app()->user->id) )
+			{
+				throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
+			}else{
 			if ($controller->id=='default' && $action->id=='index')
+				{
 				$controller->layout='dwz';
-			else{
+				}else{
 				$controller->layout=false;
 				Yii::app()->clientScript->registerJQuery=false;
+					Yii::app()->getErrorHandler()->errorAction ='admin/default/error';
 			}
 			return true;
+			}
 		}
 		else
 			return false;
