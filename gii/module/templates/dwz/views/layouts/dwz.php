@@ -6,7 +6,7 @@
 <title><?php echo $this->pageTitle; ?> - 后台管理 <?php echo Yii::app()->name; ?></title>
 </head>
 <?php $this->widget("ext.dwz.DwzWidget"); ?>
-<body>
+<body  scroll="no">
 	<div id="layout">
 		<div id="header">
 			<div class="headerNav">
@@ -43,8 +43,10 @@
 				))?>
 		</div>
 		</div>
+		
 		<div id="container">
 			<?php $this->widget("ext.dwz.DwzNavTab", array(
+				
 				"tabs"=>array(
 					"管理区首页"=>$this->renderPartial("index",null,true),
 				)
@@ -53,7 +55,7 @@
 	</div>
 
 	<div id="footer">
-	Copyright &copy; <?php echo date('Y'); ?> <a href="demo_page2.html" target="dialog">DWZ团队</a>
+	Copyright &copy; <?php echo date(\'Y\'); ?> <a href="demo_page2.html" target="dialog">DWZ团队</a>
 		<?php echo Yii::powered(); ?>
 	</div>
 
