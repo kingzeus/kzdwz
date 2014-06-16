@@ -14,12 +14,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	Yii::app()->controller->renderPartial($authpath . $this->authtype);
 ?>
 
-	public function init()
-	{
-		$this->layout=false;
-		Yii::app()->clientScript->registerJQuery=false;
-	}
-
 	public function actionCreate() {
 
         if(!DwzHelper::IsDwzAjaxRequest())
