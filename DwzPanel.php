@@ -33,8 +33,8 @@ class DwzPanel extends DwzWidget
 	public $height=300;
 	//初始状态是否是关闭状态，默认false是打开状态
 	public $close=false;
-	//是否可折叠，默认是true是可折叠
-	public $collapse=true;
+	//是否可折叠，默认是false是不可折叠
+	public $collapse= false;
 	
 	public function run()
 	{

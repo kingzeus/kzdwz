@@ -33,6 +33,30 @@ abstract class DwGxController extends GxController {
 		}
 	}
 	/**
+	 * This method is invoked right before an action is to be executed (after all possible filters.)
+	 * You may override this method to do last-minute preparation for the action.
+	 * @param CAction $action the action to be executed.
+	 * @return boolean whether the action should be executed.
+	 */
+	protected function beforeAction($action)
+	{
+		Yii::app()->setComponents(array(
+		'clientScript'=>array(
+		'class'=>'ext.dwz.DClientScript',
+		),
+		));
+		if ($this->id=='default' && $action->id=='index')
+		{
+			$this->layout='dwz';
+		}else{
+			$this->layout=false;
+			Yii::app()->clientScript->registerJQuery=false;
+			Yii::app()->getErrorHandler()->errorAction ='admin/default/error';
+		}
+
+		return parent::beforeAction($action);
+	}
+	/**
 	 * @return 这个是给dwz界面用的用于返回相应的消息代码
 	 */
 	protected function dwzOk($message,$statusCode='200',$callbackType='closeCurrent',$appEnd=true)
