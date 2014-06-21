@@ -45,6 +45,9 @@ abstract class DwGxController extends GxController {
 		'class'=>'ext.dwz.DClientScript',
 		),
 		));
+		// 修改默认主题为空
+		yii::app()->theme = Null;
+		
 		if ($this->id=='default' && $action->id=='index')
 		{
 			$this->layout='dwz';
