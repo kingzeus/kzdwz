@@ -61,15 +61,15 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 <?php else: ?>
 			if ($model->save()) {
 <?php endif; ?>
-				//$this->redirect(array('view', 'id' => $model-><?php echo $this->tableSchema->primaryKey; ?>));
-				$this->dwzOk('更新完成！');//要自动刷新就把后面的mArticle改成你的navTablId(就是打开navTab的链接中的rel)不用刷新可直接调用$this->dwz();即可
+				
+				$this->dwzOk('更新完成！');
 
 			}else
 				$this->dwzError($model);
 
 		}
 
-		$this->render('update', array(
+		$this->render('dwzupdate', array(
 				'model' => $model,
 				));
 	}
@@ -87,7 +87,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				$this->redirect(array('admin'));
 			else{
 				if(DwzHelper::IsDwzAjaxRequest())
-					$this->dwzOk('删除成功！',200,'');
+					$this->dwzOk('删除成功！',200,'','','');
 				
 					
 			}

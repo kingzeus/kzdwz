@@ -62,9 +62,9 @@ abstract class DwGxController extends GxController {
 	/**
 	 * @return 这个是给dwz界面用的用于返回相应的消息代码
 	 */
-	protected function dwzOk($message,$statusCode='200',$callbackType='closeCurrent',$appEnd=true)
+	protected function dwzOk($message,$statusCode='200',$navTabid='',$forwardUrl='',$callbackType='closeCurrent',$appEnd=true)
 	{
-		dwzHelper::json($message, $statusCode,$callbackType);
+		dwzHelper::json($message, $statusCode,$callbackType,$navTabid,$forwardUrl);
 		if ($appEnd)
 			Yii::app()->end();
 	}

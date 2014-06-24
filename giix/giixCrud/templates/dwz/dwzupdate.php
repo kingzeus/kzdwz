@@ -45,7 +45,7 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 
 <?php echo '<?php 
 	$this->widget(\'ext.dwz.DwzFormBar\',array(\'buttons\'=>array(
-		\'创建\'=>array(\'active\'=>true,\'type\'=>\'submit\'),
+		\'更新\'=>array(\'active\'=>true,\'type\'=>\'submit\'),
 		\'取消\'=>array(\'class\'=>\'close\'),
 	)));
 
