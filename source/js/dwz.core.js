@@ -4,6 +4,7 @@
  */
 
 var DWZ = {
+	regPlugins: [], // [function($parent){} ...] 
 	// sbar: show sidebar
 	keyCode: {
 		ENTER: 13, ESC: 27, END: 35, HOME: 36,
@@ -26,7 +27,11 @@ var DWZ = {
 	
 	pageInfo: {pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"},
 	statusCode: {ok:200, error:300, timeout:301},
-	ui:{sbar:true},
+	keys: {statusCode:"statusCode", message:"message"},
+	ui:{
+		sbar:true,
+		hideMode:'display' //navTab组件切换的隐藏方式，支持的值有’display’，’offsets’负数偏移位置的值，默认值为’display’
+	},
 	frag:{}, //page fragment
 	_msg:{}, //alert message
 	_set:{
@@ -103,26 +108,28 @@ var DWZ = {
 		}
 	},
 	ajaxDone:function(json){
-		if(json.statusCode == DWZ.statusCode.error) {
-			if(json.message && alertMsg) alertMsg.error(json.message);
-		} else if (json.statusCode == DWZ.statusCode.timeout) {
-			if(alertMsg) alertMsg.error(json.message || DWZ.msg("sessionTimout"), {okCall:DWZ.loadLogin});
+		if(json[DWZ.keys.statusCode] == DWZ.statusCode.error) {
+			if(json[DWZ.keys.message] && alertMsg) alertMsg.error(json[DWZ.keys.message]);
+		} else if (json[DWZ.keys.statusCode] == DWZ.statusCode.timeout) {
+			if(alertMsg) alertMsg.error(json[DWZ.keys.message] || DWZ.msg("sessionTimout"), {okCall:DWZ.loadLogin});
 			else DWZ.loadLogin();
-		} else {
-			if(json.message && alertMsg) alertMsg.correct(json.message);
+		} else if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+			if(json[DWZ.keys.message] && alertMsg) alertMsg.correct(json[DWZ.keys.message]);
 		};
 	},
 
 	init:function(pageFrag, options){
 		var op = $.extend({
 				loginUrl:"login.html", loginTitle:null, callback:null, debug:false, 
-				statusCode:{}
+				statusCode:{}, keys:{}
 			}, options);
 		this._set.loginUrl = op.loginUrl;
 		this._set.loginTitle = op.loginTitle;
 		this._set.debug = op.debug;
 		$.extend(DWZ.statusCode, op.statusCode);
+		$.extend(DWZ.keys, op.keys);
 		$.extend(DWZ.pageInfo, op.pageInfo);
+		$.extend(DWZ.ui, op.ui);
 		
 		jQuery.ajax({
 			type:'GET',
@@ -185,18 +192,18 @@ var DWZ = {
 				success: function(response){
 					var json = DWZ.jsonEval(response);
 					
-					if (json.statusCode==DWZ.statusCode.error){
-						if (json.message) alertMsg.error(json.message);
+					if (json[DWZ.keys.statusCode]==DWZ.statusCode.error){
+						if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
 					} else {
 						$this.html(response).initUI();
 						if ($.isFunction(op.callback)) op.callback(response);
 					}
 					
-					if (json.statusCode==DWZ.statusCode.timeout){
+					if (json[DWZ.keys.statusCode]==DWZ.statusCode.timeout){
 						if ($.pdialog) $.pdialog.checkTimeout();
 						if (navTab) navTab.checkTimeout();
 	
-						alertMsg.error(json.message || DWZ.msg("sessionTimout"), {okCall:function(){
+						alertMsg.error(json[DWZ.keys.message] || DWZ.msg("sessionTimout"), {okCall:function(){
 							DWZ.loadLogin();
 						}});
 					} 

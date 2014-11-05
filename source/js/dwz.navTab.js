@@ -209,7 +209,12 @@ var navTab = {
 	
 	_switchTab: function(iTabIndex){
 		var $tab = this._getTabs().removeClass("selected").eq(iTabIndex).addClass("selected");
-		this._getPanels().hide().eq(iTabIndex).show();
+
+		if (DWZ.ui.hideMode == 'offsets') {
+			this._getPanels().css({position: 'absolute', top:'-100000px', left:'-100000px'}).eq(iTabIndex).css({position: '', top:'', left:''});
+		} else {
+			this._getPanels().hide().eq(iTabIndex).show();
+		}
 
 		this._getMoreLi().removeClass("selected").eq(iTabIndex).addClass("selected");
 		this._currentIndex = iTabIndex;
@@ -328,7 +333,7 @@ var navTab = {
 	},
 	checkTimeout:function(){
 		var json = DWZ.jsonEval(this.getCurrentPanel().html());
-		if (json && json.statusCode == DWZ.statusCode.timeout) this.closeCurrentTab();
+		if (json && json[DWZ.keys.statusCode] == DWZ.statusCode.timeout) this.closeCurrentTab();
 	},
 	openExternal:function(url, $panel){
 		var ih = navTab._panelBox.height();
@@ -341,7 +346,7 @@ var navTab = {
 	 * @param {Object} params: title, data, fresh
 	 */
 	openTab: function(tabid, url, options){ //if found tabid replace tab, else create a new tab.
-		var op = $.extend({title:"New Tab", data:{}, fresh:true, external:false}, options);
+		var op = $.extend({title:"New Tab", type:"GET", data:{}, fresh:true, external:false}, options);
 
 		var iOpenIndex = this._indexTabId(tabid);
 
@@ -358,7 +363,7 @@ var navTab = {
 				} else {
 					$tab.removeClass("external");
 					$panel.ajaxUrl({
-						type:"GET", url:url, data:op.data, callback:function(){
+						type:op.type, url:url, data:op.data, callback:function(){
 							navTab._loadUrlCallback($panel);
 						}
 					});
@@ -381,7 +386,7 @@ var navTab = {
 			} else {
 				$tab.removeClass("external");
 				$panel.ajaxUrl({
-					type:"GET", url:url, data:op.data, callback:function(){
+					type:op.type, url:url, data:op.data, callback:function(){
 						navTab._loadUrlCallback($panel);
 					}
 				});
