@@ -482,7 +482,7 @@ class DwzAjaxGridView extends CBaseListView
 			echo "<tr>\n";
 			if($this->showCheckbox)
 			{
-				echo '<th width="22"><input type="checkbox" group="'.$this->filter->getTableSchema()->primaryKey.'" class="checkboxCtrl"></th>';
+				echo '<th width="22"><input type="checkbox" group="'.$this->filter->primaryKey.'" class="checkboxCtrl"></th>';
 			}
 			foreach($this->columns as $column)
 				$column->renderHeaderCell();
@@ -593,13 +593,13 @@ class DwzAjaxGridView extends CBaseListView
 			else
 				$htmlOptions['class']=$class;
 		}
-		$htmlOptions['target']=$this->filter->getTableSchema()->primaryKey;
-		$htmlOptions['rel']=$this->dataProvider->data[$row]->getAttribute($this->filter->getTableSchema()->primaryKey);
+		$htmlOptions['target']=$this->filter->primaryKey;
+		$htmlOptions['rel']=$this->dataProvider->data[$row]->getAttribute($this->filter->primaryKey);
 		echo CHtml::openTag('tr', $htmlOptions)."\n";
 		if($this->showCheckbox)
 		{
 			$data=$this->dataProvider->data[$row];
-			echo '<td><input name="'.$this->filter->getTableSchema()->primaryKey.'" value="'.$data->primaryKey.'" type="checkbox"></td>';
+			echo '<td><input name="'.$this->filter->primaryKey.'" value="'.$data->primaryKey.'" type="checkbox"></td>';
 		}
 		foreach($this->columns as $column)
 			$column->renderDataCell($row);
