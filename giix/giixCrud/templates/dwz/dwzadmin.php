@@ -39,6 +39,7 @@
 				CHtml::link(CHtml::tag('span',array(),Yii::t('admin','Update')),Yii::app()->controller->createUrl('update',array('id'=>'{'.$model->getTableSchema()->primaryKey.'}')),array('class'=>'edit','target'=>'dialog')),
 				),
 	<?php echo "//'showOperationButton'=>false,		// 是否显示操作条\n" ?>
+	<?php echo "//'operationReadOnly'=>true,		// 只读模式\n" ?>
 	'dataProvider' => $model->search($pager),
 	'filter' => $model,
 	'columns' => array(

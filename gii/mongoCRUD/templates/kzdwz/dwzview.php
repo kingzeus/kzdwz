@@ -21,13 +21,13 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 
 
 
-	<div class="pageFormContent nowrap" layoutH="56">
+	<div class="pageFormContent" layoutH="56">
 
 <?php foreach ($this->modelObject->attributeNames() as $name): ?>
 
 		<dl>
 		<?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $name) . "; ?>\n"; ?>
-		<dd><?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $name) . "; ?>\n"; ?>
+		<dd><?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $name,"array('readOnly'=>'readOnly')") . "; ?>\n"; ?>
 		<?php echo '<?php echo $form->info(); ?>'?></dd>
 		</dl>
 
