@@ -31,6 +31,7 @@
 			'showWrap'=>true,
 					),
 	<?php echo "//'showToolbar'=>false,		// 是否显示工具条\n" ?>
+	<?php echo "//'showCheckbox'=>false,		// 是否显示多选框\n" ?>
 		'toolbar'=>array(
 				CHtml::link(CHtml::tag('span',array(),yii::t('admin','Create')),Yii::app()->controller->createUrl('create'),array('class'=>'add','target'=>'dialog')),
 				//CHtml::link(CHtml::tag('span',array(),yii::t('zii','Delete')),Yii::app()->controller->createUrl('delete',array('id'=>'{'.$model->primaryKey.'}')),array('class'=>'delete','target'=>'ajaxTodo','title'=>Yii::t('zii','Are you sure you want to delete this item?'))),
