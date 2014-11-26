@@ -84,7 +84,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				'model' => $model,
 				));
 	}
+	public function actionView($id)
+	{
+	    $model = <?php echo $this->modelClass; ?>::model()->findByPk(new MongoInt64("$id"));
 
+	    $this->render('dwzview', array(
+	        'model' => $model,
+	    ));
+	}
 	public function actionDelete($id=null) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			$this->loadModel($id)->delete();
