@@ -41,8 +41,9 @@
 				),
 	<?php echo "//'showOperationButton'=>false,		// 是否显示操作条\n" ?>
 	<?php echo "//'operationReadOnly'=>true,		// 只读模式\n" ?>
-
+    <?php echo "//'showSearchBar'=>false,		// 显示搜索条\n" ?>
 	'dataProvider' => $model->search($pager),
+	<?php echo "//'showFilter'=>false,		// 显示过滤器\n" ?>
 	'filter' => $model,
 	'columns' => array(
 <?php

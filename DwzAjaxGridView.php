@@ -292,6 +292,8 @@ class DwzAjaxGridView extends CBaseListView
 	 * @since 1.1.1
 	 */
 	public $filter;
+	// 显示过滤器
+	public $showFilter = true;
 	/**
 	 * @var boolean whether to hide the header cells of the grid. When this is true, header cells
 	 * will not be rendered, which means the grid cannot be sorted anymore since the sort links are located
@@ -318,6 +320,9 @@ class DwzAjaxGridView extends CBaseListView
 	public $operationReadOnly = false;
 	public $operationButton = array();
 	public $showCheckbox = true;
+	// 搜索条
+	public $showSearchBar = true;
+	
 	// 分页
 	public $pageSize=10;
 	public $currentPage=0;
@@ -440,7 +445,39 @@ class DwzAjaxGridView extends CBaseListView
 		echo CHtml::closeTag('ul');
 		echo CHtml::closeTag('div');
 	}
+	
+	public function renderSearchbar()
+	{
+	    if(!$this->showSearchBar)
+	        return;
+	
+	    echo CHtml::openTag('div',array('class'=>'searchBar'));
+	    // 内容
+	    echo CHtml::openTag('table',array('class'=>'searchContent'));
+	    
+// 	    <tr>
+// 	    <td>
+// 	    我的客户：<input type="text" name="keyword" />
+// 	        </td>
+// 	        <td>
 
+// 	            </td>
+// 	            <td>
+// 	            建档日期：<input type="text" class="date" readonly="true" />
+// 	            </td>
+// 	            </tr>
+	    echo CHtml::closeTag('table');
+	    // button
+            echo CHtml::openTag('div',array('class'=>'subBar'));
+	            echo '<ul><li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>';
+				
+	    		//<li><a class="button" href="demo_page6.html" target="dialog" mask="true" title="查询框"><span>高级检索</span></a></li>
+	    		echo '</ul>';
+	    	echo CHtml::closeTag('div');
+
+	    
+	    echo CHtml::closeTag('div');
+	}
 	/**
 	 * Renders the data items for the grid view.
 	 */
@@ -454,7 +491,8 @@ class DwzAjaxGridView extends CBaseListView
 	<input type="hidden" name="orderField" value="${param.orderField}" />
 	<input type="hidden" name="orderDirection" value="${param.orderDirection}" />
 </form>';
-		
+		//搜索条
+		$this->renderSearchbar();
 		// 输出工具条
 		$this->renderToolbar();
 		
@@ -514,13 +552,13 @@ class DwzAjaxGridView extends CBaseListView
 	 */
 	public function renderFilter()
 	{
-// 		if($this->filter!==null)
-// 		{
-// 			echo "<tr class=\"{$this->filterCssClass}\">\n";
-// 			foreach($this->columns as $column)
-// 				$column->renderFilterCell();
-// 			echo "</tr>\n";
-// 		}
+		if($this->filter!==null && $this->showFilter)
+		{
+			echo "<tr class=\"{$this->filterCssClass}\">\n";
+			foreach($this->columns as $column)
+				$column->renderFilterCell();
+			echo "</tr>\n";
+		}
 	}
 
 	/**
