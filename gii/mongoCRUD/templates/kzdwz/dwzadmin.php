@@ -45,6 +45,8 @@
 	'dataProvider' => $model->search($pager),
 	<?php echo "//'showFilter'=>false,		// 显示过滤器\n" ?>
 	'filter' => $model,
+	<?php echo "//'enableSorting'=>false,		// 列排序\n" ?>
+
 	'columns' => array(
 <?php
 $count = 0;
