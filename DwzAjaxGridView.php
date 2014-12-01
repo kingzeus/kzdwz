@@ -322,6 +322,7 @@ class DwzAjaxGridView extends CBaseListView
 	public $showCheckbox = true;
 	// 搜索条
 	public $showSearchBar = true;
+	public $searchButton=array();
 	
 	// 分页
 	public $pageSize=10;
@@ -401,6 +402,24 @@ class DwzAjaxGridView extends CBaseListView
 
 		foreach($this->columns as $column)
 			$column->init();
+		
+		//  设置搜索内容
+		if(is_array($this->searchButton))
+		{
+		    if(count($this->searchButton)==0)
+		      $this->searchButton[]=array('name'=>$this->dataProvider->model->primaryKey());
+		    else{
+		        $newBtns = array();
+		        foreach ($this->searchButton as $btn)
+		        {
+		            if(is_string($btn))
+		                $newBtns[] = array('name'=>$btn);
+		            else
+		                $newBtns[] = $btn;
+		        }
+		        $this->searchButton = $newBtns;
+		    }
+		}
 	}
 
 	/**
@@ -455,7 +474,16 @@ class DwzAjaxGridView extends CBaseListView
 	    // 内容
 	    echo CHtml::openTag('table',array('class'=>'searchContent'));
 	    
-// 	    <tr>
+	    echo CHtml::openTag('tr');
+
+	    foreach ($this->searchButton as $btn)
+	    {
+	        echo CHtml::openTag('td');
+	        
+	        echo CHtml::activeLabel($this->dataProvider->model, $btn['name']);
+	        echo CHtml::activeTextField($this->dataProvider->model, $btn['name']);
+	        echo CHtml::closeTag('td');
+	    }
 // 	    <td>
 // 	    我的客户：<input type="text" name="keyword" />
 // 	        </td>
@@ -465,7 +493,8 @@ class DwzAjaxGridView extends CBaseListView
 // 	            <td>
 // 	            建档日期：<input type="text" class="date" readonly="true" />
 // 	            </td>
-// 	            </tr>
+
+	    echo CHtml::closeTag('tr');
 	    echo CHtml::closeTag('table');
 	    // button
             echo CHtml::openTag('div',array('class'=>'subBar'));
@@ -485,12 +514,17 @@ class DwzAjaxGridView extends CBaseListView
 	{
 
 		// 隐藏表单
-		echo '<form id="pagerForm" method="post" action="'.Yii::app()->request->getUrl().'">
+		echo '<form id="pagerForm" method="post" onsubmit="return navTabSearch(this);" action="'.Yii::app()->request->getUrl().'">
 	<input type="hidden" name="pageNum" value="'.($this->currentPage+1).'" />
 	<input type="hidden" name="numPerPage" value="'.$this->pageSize.'" />
 	<input type="hidden" name="orderField" value="${param.orderField}" />
-	<input type="hidden" name="orderDirection" value="${param.orderDirection}" />
-</form>';
+	<input type="hidden" name="orderDirection" value="${param.orderDirection}" />';
+		foreach ($this->searchButton as $btn)
+		{
+		    echo '<input type="hidden" name="orderField" value="${param.'.$btn['name'].'}"';
+		}
+	    
+        echo chtml::closeTag('form');
 		//搜索条
 		$this->renderSearchbar();
 		// 输出工具条

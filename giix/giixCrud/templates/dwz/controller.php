@@ -105,8 +105,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		$model = new <?php echo $this->modelClass; ?>('search');
 		$model->unsetAttributes();
 
-		if (isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->setAttributes($_GET['<?php echo $this->modelClass; ?>']);
+		if (isset($_POST['<?php echo $this->modelClass; ?>']))
+			$model->setAttributes($_POST['<?php echo $this->modelClass; ?>']);
 
 		$this->render('dwzadmin', array(
 			'model' => $model,
