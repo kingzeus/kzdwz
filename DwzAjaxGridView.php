@@ -407,8 +407,12 @@ class DwzAjaxGridView extends CBaseListView
 		if(is_array($this->searchButton))
 		{
 		    if(count($this->searchButton)==0)
-		      $this->searchButton[]=array('name'=>$this->dataProvider->model->primaryKey());
-		    else{
+		    {
+		        $pk = $this->dataProvider->model->primaryKey();
+		        if($pk===null)
+		            throw new CException('模型缺少主键');
+                $this->searchButton[]=array('name'=>$pk);
+		    }else{
 		        $newBtns = array();
 		        foreach ($this->searchButton as $btn)
 		        {
@@ -469,7 +473,7 @@ class DwzAjaxGridView extends CBaseListView
 	{
 	    if(!$this->showSearchBar)
 	        return;
-	
+	    echo CHtml::openTag('div',array('class'=>'pageHeader'));
 	    echo CHtml::openTag('div',array('class'=>'searchBar'));
 	    // 内容
 	    echo CHtml::openTag('table',array('class'=>'searchContent'));
@@ -484,15 +488,6 @@ class DwzAjaxGridView extends CBaseListView
 	        echo CHtml::activeTextField($this->dataProvider->model, $btn['name']);
 	        echo CHtml::closeTag('td');
 	    }
-// 	    <td>
-// 	    我的客户：<input type="text" name="keyword" />
-// 	        </td>
-// 	        <td>
-
-// 	            </td>
-// 	            <td>
-// 	            建档日期：<input type="text" class="date" readonly="true" />
-// 	            </td>
 
 	    echo CHtml::closeTag('tr');
 	    echo CHtml::closeTag('table');
@@ -505,6 +500,7 @@ class DwzAjaxGridView extends CBaseListView
 	    	echo CHtml::closeTag('div');
 
 	    
+	    echo CHtml::closeTag('div');
 	    echo CHtml::closeTag('div');
 	}
 	/**
