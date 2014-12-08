@@ -61,7 +61,16 @@ abstract class DwGxController extends GxController {
 	}
 	/**
 	 * @return 这个是给dwz界面用的用于返回相应的消息代码
-	 */
+	 * @param string $navTabid 可以把那个navTab标记为reloadFlag=1, 下次切换到那个navTab时会重新载入内容
+	 * @param string $callbackType 如果是closeCurrent就会关闭当前tab
+	 * @param string $forwardUrl   只有callbackType="forward"时需要forwardUrl值
+	 * form提交后返回json数据结构statusCode=DWZ.statusCode.ok表示操作成功, 做页面跳转等操作. statusCode=DWZ.statusCode.error表示操作失败, 提示错误原因. 
+     * statusCode=DWZ.statusCode.timeout表示session超时，下次点击时跳转到DWZ.loginUrl
+     * {"statusCode":"200", "message":"操作成功", "navTabId":"navNewsLi", "forwardUrl":"", "callbackType":"closeCurrent"}
+     * {"statusCode":"300", "message":"操作失败"}
+     * {"statusCode":"301", "message":"会话超时"}
+     * 
+     */
 	protected function dwzOk($message,$statusCode='200',$navTabid='',$forwardUrl='',$callbackType='closeCurrent',$appEnd=true)
 	{
 		dwzHelper::json($message, $statusCode,$callbackType,$navTabid,$forwardUrl);
