@@ -73,7 +73,7 @@ abstract class DwGxController extends GxController {
      */
 	protected function dwzOk($message,$statusCode='200',$navTabid='',$forwardUrl='',$callbackType='closeCurrent',$appEnd=true)
 	{
-		dwzHelper::json($message, $statusCode,$callbackType,$navTabid,$forwardUrl);
+		DwzHelper::json($message, $statusCode,$callbackType,$navTabid,$forwardUrl);
 		if ($appEnd)
 			Yii::app()->end();
 	}
@@ -91,7 +91,7 @@ abstract class DwGxController extends GxController {
 			}else
 				$message='';
 		}
-		dwzHelper::json($message, $statusCode,$callbackType);
+		DwzHelper::json($message, $statusCode,$callbackType);
 		if ($appEnd)
 			Yii::app()->end();
 	}
