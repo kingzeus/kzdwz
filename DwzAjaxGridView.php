@@ -511,8 +511,6 @@ class DwzAjaxGridView extends CBaseListView
 
 		// 隐藏表单
 		echo '<form id="pagerForm" method="post" onsubmit="return navTabSearch(this);" action="'.Yii::app()->request->getUrl().'">
-	<input type="hidden" name="pageNum" value="'.($this->currentPage+1).'" />
-	<input type="hidden" name="numPerPage" value="'.$this->pageSize.'" />
 	<input type="hidden" name="orderField" value="${param.orderField}" />
 	<input type="hidden" name="orderDirection" value="${param.orderDirection}" />';
 		foreach ($this->searchButton as $btn)
