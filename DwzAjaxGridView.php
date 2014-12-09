@@ -318,7 +318,7 @@ class DwzAjaxGridView extends CBaseListView
 	public $showOperationButton = true;
 	// 只读操作(查看)
 	public $operationReadOnly = false;
-	public $operationButton = array();
+	public $operationButtonOptions = array();
 	public $showCheckbox = true;
 	// 搜索条
 	public $showSearchBar = true;
@@ -359,10 +359,11 @@ class DwzAjaxGridView extends CBaseListView
 		    $op = array(
 			             'class' => 'DwzButtonColumn',
 		          );
+		    
 		    if($this->operationReadOnly)
-		        $this->columns[] = array_merge($op, array('template'=>'{view}'));
+		        $this->columns[] = array_merge($op, array('template'=>'{view}'),$this->operationButtonOptions);
 		    else
-		        $this->columns[] =array_merge($op, array('template'=>'{view} {update} {delete}'));
+		        $this->columns[] =array_merge($op, array('template'=>'{view} {update} {delete}'),$this->operationButtonOptions);
 
 		}
 		if($this->columns===array())
