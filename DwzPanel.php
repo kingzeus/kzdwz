@@ -36,6 +36,10 @@ class DwzPanel extends DwzWidget
 	//是否可折叠，默认是false是不可折叠
 	public $collapse= false;
 	
+	public function init()
+	{
+	    
+	}
 	public function run()
 	{
 		$class='panel';
