@@ -411,7 +411,7 @@ class DwzAjaxGridView extends CBaseListView
 		    {
 		        $pk = $this->dataProvider->model->primaryKey();
 		        if($pk===null)
-		            throw new CException('模型缺少主键');
+		            throw new CException('模型'.$this->dataProvider->model->tableName().'缺少主键');
                 $this->searchButton[]=array('name'=>$pk);
 		    }else{
 		        $newBtns = array();
