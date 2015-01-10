@@ -51,6 +51,9 @@ class DwzTabs extends DwzWidget
 	public $headerTemplate= '<li><a class="{cls}" href="{url}"><span>{title}</span></a></li>';
 	public $contentTemplate='<div id="{id}">{content}</div>';
 	public $footer='';
+    public function init()
+	{
+	}
 	/**
 	 * @var int 内容区的高度
 	 */
