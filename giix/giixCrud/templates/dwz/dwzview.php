@@ -28,7 +28,7 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 <?php if (!$column->autoIncrement): ?>
 		<dl>
 		<?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
-		<dd><?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+		<dd><?php echo "<?php echo \$form->textField(\$model, '{$column->name}',array('readOnly'=>'readOnly')); ?>\n"; ?>
 		<?php echo '<?php echo $form->info(); ?>'?></dd>
 		</dl>
 <?php endif; ?>
