@@ -22,7 +22,7 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 
 
 
-	<div class="pageFormContent nowrap" layoutH="56">
+	<div class="pageFormContent" layoutH="56">
 
 <?php foreach ($this->tableSchema->columns as $column): ?>
 <?php if (!$column->autoIncrement): ?>

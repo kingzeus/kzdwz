@@ -73,7 +73,19 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				'model' => $model,
 				));
 	}
+	public function actionView($id) {
+		$model = $this->loadModel($id, '<?php echo $this->modelClass; ?>');
 
+<?php if ($this->enable_ajax_validation): ?>
+		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
+<?php endif; ?>
+
+
+
+		$this->render('dwzview', array(
+				'model' => $model,
+				));
+	}
 	public function actionDelete($id=null) {
 		if (Yii::app()->getRequest()->getIsPostRequest()) {
 			if($id===null&&isset($_POST['<?php echo $this->tableSchema->primaryKey; ?>']))
