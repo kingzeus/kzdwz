@@ -28,7 +28,7 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 <?php if (!$column->autoIncrement): ?>
 		<dl>
 		<?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
-		<dd><?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+		<dd><?php echo "<?php echo \$form->textField(\$model, '{$column->name}',array('readOnly'=>'readOnly')); ?>\n"; ?>
 		<?php echo '<?php echo $form->info(); ?>'?></dd>
 		</dl>
 <?php endif; ?>
@@ -37,18 +37,12 @@ $form = $this->beginWidget('DwGxActiveForm', array(
 <?php foreach ($this->getRelations($this->modelClass) as $relation): ?>
 <?php if ($relation[1] == GxActiveRecord::HAS_MANY || $relation[1] == GxActiveRecord::MANY_MANY): ?>
 		<label><?php echo '<?php'; ?> echo GxHtml::encode($model->getRelationLabel('<?php echo $relation[0]; ?>')); ?></label>
-		<?php echo '<?php ' . $this->generateActiveRelationField($this->modelClass, $relation) . "; ?>\n"; ?>
+		<?php echo '<?php ' . $this->generateActiveRelationField($this->modelClass, $relation ,"array('readOnly'=>'readOnly')") . "; ?>\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 	</div>
 
 
 <?php echo '<?php 
-	$this->widget(\'ext.dwz.DwzFormBar\',array(\'buttons\'=>array(
-		\'更新\'=>array(\'active\'=>true,\'type\'=>\'submit\'),
-		\'取消\'=>array(\'class\'=>\'close\'),
-	)));
-
-
-$this->endWidget(); ?>'; ?>
+	$this->endWidget(); ?>'; ?>
 </div><!-- form -->
